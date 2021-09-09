@@ -30,8 +30,7 @@ def start_project(txt: str) -> Tuple[int, int]:
     This function will be tested on two of the 
     25 most downloaded books from https://www.gutenberg.org. 
     The format used is txt and the file is read using open(fname).read()"""
-    reFind = re.search(r'\*\*\* START OF THE PROJECT GUTENBERG EBOOK(.*) \*\*\*', txt)
-    return (reFind.span())
+    return (re.search(r'\*\*\* START OF THE PROJECT GUTENBERG EBOOK(.*) \*\*\*', txt)).span()
 
 def entity_identification(txt: str) -> Counter:
     """Count the number of appearances of each entity using 
@@ -60,8 +59,7 @@ def replace_user(txt: str) -> str:
     >>> replace_user("@_mgraffg @mgraffg_ @mgraffg_2 @mgraffg?")
     '@user @user @user @user?'
     """
-    txt = re.sub(r'@[a-zA-Z0-9_]+', '@user', txt)
-    return txt
+    return re.sub(r'@[a-zA-Z0-9_]+', '@user', txt)
 
 
 def sentence_accuracy(y: List[str], hy: List[str]) -> float:
@@ -75,4 +73,3 @@ def sentence_accuracy(y: List[str], hy: List[str]) -> float:
     >>> sentence_accuracy(['a', 'b', 'b', 'a'], ['b', 'a', 'a'])
     0.75
     """
-    
