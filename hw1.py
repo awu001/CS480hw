@@ -31,7 +31,6 @@ def start_project(txt: str) -> Tuple[int, int]:
     25 most downloaded books from https://www.gutenberg.org. 
     The format used is txt and the file is read using open(fname).read()"""
     reFind = re.search(r'\*\*\* START OF THE PROJECT GUTENBERG EBOOK(.*) \*\*\*', txt)
-    print (reFind.span())
     return (reFind.span())
 
 def entity_identification(txt: str) -> Counter:
@@ -49,8 +48,7 @@ def entity_identification(txt: str) -> Counter:
     >>> entity_identification("USA. U.S.A America.")
     Counter({'USA.': 1, 'U.S.A': 1, 'America.': 1})
     """
-    myCounter = Counter(txt)
-    return myCounter(re.finditer(r'\s[A-Z][a-zA-Z\.]*\s', txt))
+    return Counter(re.findall(r'[A-Z][a-zA-Z\.]*', txt))
 
 
 def replace_user(txt: str) -> str:
@@ -62,7 +60,7 @@ def replace_user(txt: str) -> str:
     >>> replace_user("@_mgraffg @mgraffg_ @mgraffg_2 @mgraffg?")
     '@user @user @user @user?'
     """
-    re.sub(r'@[a-zA-Z0-9_]*', '@user', txt)
+    txt = re.sub(r'@[a-zA-Z0-9_]+', '@user', txt)
     return txt
 
 
@@ -77,3 +75,4 @@ def sentence_accuracy(y: List[str], hy: List[str]) -> float:
     >>> sentence_accuracy(['a', 'b', 'b', 'a'], ['b', 'a', 'a'])
     0.75
     """
+    
