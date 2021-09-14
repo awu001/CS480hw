@@ -30,7 +30,7 @@ def start_project(txt: str) -> Tuple[int, int]:
     This function will be tested on two of the 
     25 most downloaded books from https://www.gutenberg.org. 
     The format used is txt and the file is read using open(fname).read()"""
-    return (re.search(r'\*\*\* START OF THE PROJECT GUTENBERG EBOOK(.*) \*\*\*', txt)).span()
+    return (re.search(r'\*\*\* START OF THE PROJECT GUTENBERG EBOOK(.*) \*\*\*', txt)).span() #match the start of the book with the regex, then find its indexes
 
 def entity_identification(txt: str) -> Counter:
     """Count the number of appearances of each entity using 
@@ -47,7 +47,7 @@ def entity_identification(txt: str) -> Counter:
     >>> entity_identification("USA. U.S.A America.")
     Counter({'USA.': 1, 'U.S.A': 1, 'America.': 1})
     """
-    return Counter(re.findall(r'[A-Z][a-zA-Z\.]*', txt))
+    return Counter(re.findall(r'[A-Z][a-zA-Z\.]*', txt)) #find all instances of an entity, and add to their value in a counter
 
 
 def replace_user(txt: str) -> str:
@@ -59,7 +59,7 @@ def replace_user(txt: str) -> str:
     >>> replace_user("@_mgraffg @mgraffg_ @mgraffg_2 @mgraffg?")
     '@user @user @user @user?'
     """
-    return re.sub(r'@[a-zA-Z0-9_]+', '@user', txt)
+    return re.sub(r'@[a-zA-Z0-9_]+', '@user', txt) #substitute any instances of @ followed immediately by text with @user
 
 
 def sentence_accuracy(y: List[str], hy: List[str]) -> float:
@@ -73,3 +73,11 @@ def sentence_accuracy(y: List[str], hy: List[str]) -> float:
     >>> sentence_accuracy(['a', 'b', 'b', 'a'], ['b', 'a', 'a'])
     0.75
     """
+    #punkt - does not modify inputs
+    count = 0 # to count the number of strings from the 'gold' list found in the tokenized list
+    tokenized = hy[:]
+    for currStr in y:   #iterate through 'gold' set of sentences, if sentence in tokenized set remove it and add 1 to count
+        if (currStr in tokenized):
+            count += 1
+            tokenized.remove(currStr)
+    return count / len(y) 
